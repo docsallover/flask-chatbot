@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        background: rgb(255, 255, 255);
+      }
+      
+      .chat {
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+      
+      .card {
+        height: 500px;
+        border-radius: 15px !important;
+        background-color: rgba(0, 0, 0, 0.8) !important;
+      }
+      
+      .msg_card_body {
+        overflow-y: auto;
+      }
+      
+      .card-header {
+        border-radius: 15px 15px 0 0 !important;
+        border-bottom: 0 !important;
+      }
+      
+      .card-footer {
+        border-radius: 0 0 15px 15px !important;
+        border-top: 0 !important;
+      }
+      
+      .container {
+        align-content: center;
+      }
+      
+      .type_msg {
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        border: 0 !important;
+        color: white !important;
+        height: 60px !important;
+        overflow-y: auto;
+      }
+      
+      .type_msg:focus {
+        box-shadow: none !important;
+        outline: 0px !important;
+      }
+      
+      .send_btn {
+        border-radius: 0 15px 15px 0 !important;
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        border: 0 !important;
+        color: white !important;
+        cursor: pointer;
+      }
+      
+      .user_img {
+        height: 70px;
+        width: 70px;
+        border: 1.5px solid #f5f6fa;
+      }
+      
+      .user_img_msg {
+        height: 40px;
+        width: 40px;
+        border: 1.5px solid #f5f6fa;
+      }
+      
+      .img_cont {
+        position: relative;
+        height: 70px;
+        width: 70px;
+      }
+      
+      .img_cont_msg {
+        height: 40px;
+        width: 40px;
+      }
+      
+      .online_icon {
+        position: absolute;
+        height: 15px;
+        width: 15px;
+        background-color: #4cd137;
+        border-radius: 50%;
+        bottom: 0.2em;
+        right: 0.4em;
+        border: 1.5px solid white;
+      }
+      
+      .user_info {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 15px;
+      }
+      
+      .user_info span {
+        font-size: 20px;
+        color: white;
+      }
+      
+      .user_info p {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      
+      .msg_cotainer {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 10px;
+        border-radius: 25px;
+        background-color: rgb(82, 172, 255);
+        padding: 10px;
+        position: relative;
+      }
+      
+      .msg_cotainer_send {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-right: 10px;
+        border-radius: 25px;
+        background-color: #58cc71;
+        padding: 10px;
+        position: relative;
+      }
+      
+      .msg_time {
+        position: absolute;
+        left: 0;
+        bottom: -15px;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 10px;
+      }
+      
+      .msg_time_send {
+        position: absolute;
+        right: 0;
+        bottom: -15px;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 10px;
+      }
+      
+      .msg_head {
+        position: relative;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container-fluid h-100">
+      <div class="row justify-content-center h-100">
+        <div class="col-md-8 col-xl-6 chat">
+          <div class="card">
+            <div class="card-header msg_head">
+              <div class="d-flex bd-highlight">
+                <div class="img_cont">
+                  <img src="https://static.vecteezy.com/system/resources/previews/032/483/672/non_2x/artificial-intelligence-related-outline-style-icon-free-vector.jpg" class="rounded-circle user_img" />
+                  <span class="online_icon"></span>
+                </div>
+                <div class="user_info">
+                  <span>Machine Learning Chatbot</span>
+                  <p>Ask me anything!</p>
+                </div>
+              </div>
+            </div>
+            <div id="messageFormeight" class="card-body msg_card_body"></div>
+            <div class="card-footer">
+              <form id="messageArea" class="input-group">
+                <input type="text" id="text" name="msg" placeholder="Type your message..." autocomplete="off" class="form-control type_msg" required />
+                <div class="input-group-append">
+                  <button type="submit" id="send" class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function scrollToBottom() {
+        var messageBody = document.getElementById('messageFormeight')
+        messageBody.scrollTop = messageBody.scrollHeight
+      }
+      
+      $(document).ready(function () {
+        $('#messageArea').on('submit', function (event) {
+          const date = new Date()
+          const hour = date.getHours()
+          const minute = date.getMinutes()
+          const str_time = hour + ':' + minute
+          var rawText = $('#text').val()
+      
+          var userHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' + rawText + '<span class="msg_time_send">' + str_time + '</span></div><div class="img_cont_msg"><img src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg" class="rounded-circle user_img_msg"></div></div>'
+      
+          $('#text').val('')
+          $('#messageFormeight').append(userHtml)
+      
+          scrollToBottom()
+      
+          $.ajax({
+            data: {
+              msg: rawText
+            },
+            type: 'POST',
+            url: '/get'
+          }).done(function (data) {
+            var botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://static.vecteezy.com/system/resources/previews/032/483/672/non_2x/artificial-intelligence-related-outline-style-icon-free-vector.jpg" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' + data + '<span class="msg_time">' + str_time + '</span></div></div>'
+            $('#messageFormeight').append($.parseHTML(botHtml))
+            scrollToBottom()
+          })
+          event.preventDefault()
+        })
+      })
+    </script>
+  </body>
+</html>
