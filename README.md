@@ -28,6 +28,9 @@ The system requires the following dependencies:
 - transformers
 - torch
 
+## Screenshot
+![Screenshot](screenshot.png)
+
 ## License
 This project is licensed under the MIT License. See the LICENSE file for more details.
 
