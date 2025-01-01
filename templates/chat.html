@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Chatbot</title>
-    <link rel="shortcut icon" href="https://static.vecteezy.com/system/resources/previews/032/483/672/non_2x/artificial-intelligence-related-outline-style-icon-free-vector.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="https://static.vecteezy.com/system/resources/previews/032/483/672/non_2x/artificial-intelligence-related-outline-style-icon-free-vector.jpg" type="image/x-icon" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -13,36 +13,29 @@
         margin: 0;
         background: rgb(255, 255, 255);
       }
-      
       .chat {
         margin-top: auto;
         margin-bottom: auto;
       }
-      
       .card {
         height: 500px;
         border-radius: 15px !important;
         background-color: rgba(0, 0, 0, 0.8) !important;
       }
-      
       .msg_card_body {
         overflow-y: auto;
       }
-      
       .card-header {
         border-radius: 15px 15px 0 0 !important;
         border-bottom: 0 !important;
       }
-      
       .card-footer {
         border-radius: 0 0 15px 15px !important;
         border-top: 0 !important;
       }
-      
       .container {
         align-content: center;
       }
-      
       .type_msg {
         background-color: rgba(0, 0, 0, 0.3) !important;
         border: 0 !important;
@@ -50,12 +43,10 @@
         height: 60px !important;
         overflow-y: auto;
       }
-      
       .type_msg:focus {
         box-shadow: none !important;
         outline: 0px !important;
       }
-      
       .send_btn {
         border-radius: 0 15px 15px 0 !important;
         background-color: rgba(0, 0, 0, 0.3) !important;
@@ -63,30 +54,25 @@
         color: white !important;
         cursor: pointer;
       }
-      
       .user_img {
         height: 70px;
         width: 70px;
         border: 1.5px solid #f5f6fa;
       }
-      
       .user_img_msg {
         height: 40px;
         width: 40px;
         border: 1.5px solid #f5f6fa;
       }
-      
       .img_cont {
         position: relative;
         height: 70px;
         width: 70px;
       }
-      
       .img_cont_msg {
         height: 40px;
         width: 40px;
       }
-      
       .online_icon {
         position: absolute;
         height: 15px;
@@ -97,23 +83,19 @@
         right: 0.4em;
         border: 1.5px solid white;
       }
-      
       .user_info {
         margin-top: auto;
         margin-bottom: auto;
         margin-left: 15px;
       }
-      
       .user_info span {
         font-size: 20px;
         color: white;
       }
-      
       .user_info p {
         font-size: 10px;
         color: rgba(255, 255, 255, 0.6);
       }
-      
       .msg_cotainer {
         margin-top: auto;
         margin-bottom: auto;
@@ -123,7 +105,6 @@
         padding: 10px;
         position: relative;
       }
-      
       .msg_cotainer_send {
         margin-top: auto;
         margin-bottom: auto;
@@ -133,7 +114,6 @@
         padding: 10px;
         position: relative;
       }
-      
       .msg_time {
         position: absolute;
         left: 0;
@@ -141,7 +121,6 @@
         color: rgba(255, 255, 255, 0.5);
         font-size: 10px;
       }
-      
       .msg_time_send {
         position: absolute;
         right: 0;
@@ -149,7 +128,6 @@
         color: rgba(255, 255, 255, 0.5);
         font-size: 10px;
       }
-      
       .msg_head {
         position: relative;
       }
@@ -188,26 +166,35 @@
     </div>
 
     <script>
+      // scroll the chat window to the bottom
       function scrollToBottom() {
         var messageBody = document.getElementById('messageFormeight')
         messageBody.scrollTop = messageBody.scrollHeight
       }
       
+      // when the user submits the form
       $(document).ready(function () {
         $('#messageArea').on('submit', function (event) {
+          // get the current time
           const date = new Date()
           const hour = date.getHours()
           const minute = date.getMinutes()
           const str_time = hour + ':' + minute
+          // get the user's input
           var rawText = $('#text').val()
       
+          // create the HTML for the user's message
+          // this includes the user's icon, the message itself, and the time
           var userHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' + rawText + '<span class="msg_time_send">' + str_time + '</span></div><div class="img_cont_msg"><img src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg" class="rounded-circle user_img_msg"></div></div>'
       
+          // clear the input box
           $('#text').val('')
+          // add the user's message to the chat
           $('#messageFormeight').append(userHtml)
-      
+          // scroll the chat window to the bottom
           scrollToBottom()
       
+          // send the message to the server
           $.ajax({
             data: {
               msg: rawText
@@ -215,10 +202,16 @@
             type: 'POST',
             url: '/get'
           }).done(function (data) {
+            // get the response from the server
+            // create the HTML for the chatbot's response
+            // this includes the chatbot's icon, the response itself, and the time
             var botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://static.vecteezy.com/system/resources/previews/032/483/672/non_2x/artificial-intelligence-related-outline-style-icon-free-vector.jpg" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' + data + '<span class="msg_time">' + str_time + '</span></div></div>'
+            // add the chatbot's response to the chat
             $('#messageFormeight').append($.parseHTML(botHtml))
+            // scroll the chat window to the bottom
             scrollToBottom()
           })
+          // prevent the page from reloading
           event.preventDefault()
         })
       })
